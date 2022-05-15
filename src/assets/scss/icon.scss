@@ -1,0 +1,53 @@
+@font-face {
+    font-family: "iconfont";
+    /* Project id 3364103 */
+    src: url('//at.alicdn.com/t/font_3364103_6qxjmu5t1w4.woff2?t=1651238406233') format('woff2'),
+        url('//at.alicdn.com/t/font_3364103_6qxjmu5t1w4.woff?t=1651238406233') format('woff'),
+        url('//at.alicdn.com/t/font_3364103_6qxjmu5t1w4.ttf?t=1651238406233') format('truetype');
+}
+
+// svg图标
+.icon {
+    width: 2em;
+    height: 2em;
+    vertical-align: top;
+    fill: currentColor;
+    overflow: hidden;
+}
+
+.iconfont {
+    font-family: "iconfont" !important;
+    font-size: $font-size-large-x;
+    font-weight: 700;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-login:before {
+    content: "\e636";
+}
+
+.icon-github_alt:before {
+    content: "\ecc3";
+}
+
+.icon-settings4:before {
+    content: "\e711";
+}
+
+.icon-search:before {
+    content: "\e671";
+}
+
+.icon-user:before {
+    content: "\e75f";
+}
+
+.icon-arrowleft:before {
+    content: "\e65a";
+}
+
+.icon-arrowright:before {
+    content: "\e65e";
+}

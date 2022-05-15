@@ -1,0 +1,20 @@
+// 毛玻璃
+@mixin bg-frostedglass($bgc:rgba(255, 255, 255, 0.3), $blur:10px) {
+    background-color: $bgc;
+    backdrop-filter: blur($blur);
+    -webkit-backdrop-filter: blur($blur);
+}
+
+@mixin bg-frostedglass-deep($bgc:rgba(255, 255, 255, 0.4), $blur:10px) {
+    background-color: $bgc;
+    backdrop-filter: blur($blur);
+    -webkit-backdrop-filter: blur($blur);
+}
+
+// 文本溢出隐藏
+@mixin text-overflow-hidden($line:2) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $line;
+    overflow: hidden;
+}

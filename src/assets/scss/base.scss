@@ -1,0 +1,60 @@
+html {
+    font-size: $font-size-normal;
+}
+
+// 固定宽度类
+.container {
+    width: 1200px;
+}
+
+// 居中类
+.center {
+    margin: 0 auto;
+}
+
+// 单行文本溢出隐藏
+.textoverflow-hidden-single {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// 清除浮动
+.clearfix::after,
+.clearfix::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+// 推荐歌手线性滚动
+.artistrecommend {
+    .swiper-wrapper {
+        transition-timing-function: linear !important;
+    }
+}
+
+
+/*控制整个滚动条*/
+::-webkit-scrollbar {
+    background-color: lightgray;
+    width: 0px;
+    height: 10px;
+    background-clip: padding-box;
+}
+
+// /*滚动条两端方向按钮*/
+// ::-webkit-scrollbar-button {
+//     background-color: pink;
+// }
+
+// /*滚动条中间滑动部分*/
+// ::-webkit-scrollbar-thumb {
+//     background-color: blue;
+//     border-radius: 5px;
+// }
+
+// /*滚动条右下角区域*/
+// ::-webkit-scrollbar-corner {
+//     background-color: red;
+// }
