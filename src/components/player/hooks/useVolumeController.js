@@ -1,8 +1,8 @@
 import { ref } from 'vue'
 
 export default function useVolumeController() {
-    const volume = ref(0.5)
-    const cacheVolume = ref(0.5)    //缓存静音前的音量
+    const volume = ref(0.1)
+    const cacheVolume = ref(0.1)    //缓存静音前的音量
     const muted = ref(false)
 
     // 实时获取进度条数据

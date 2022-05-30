@@ -6,7 +6,7 @@ export default {
             if (el.contains(e.target)) return false
             // 调用指令绑定的回调函数
             if (binding.value) {
-                binding.value(e)
+                binding.value(e, el)
             }
         }
         document.addEventListener('click', documentHandler)

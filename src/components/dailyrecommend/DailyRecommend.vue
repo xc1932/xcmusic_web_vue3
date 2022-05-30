@@ -1,5 +1,5 @@
 <template>
-  <div class="dailyrecommend center">
+  <div class="dailyrecommend center" @click.stop="toDailyView">
     <img :src="imgUrl" />
     <div class="title">
       <div class="letter">每</div>
@@ -7,7 +7,7 @@
       <div class="letter">推</div>
       <div class="letter">荐</div>
     </div>
-    <div class="play" v-clickZoomOut>
+    <div class="play" v-clickZoomOut @click="playDailySongs">
       <svg class="icon" aria-hidden="true">
         <use xlink:href="#icon-play"></use>
       </svg>
@@ -17,6 +17,8 @@
 
 <script>
 import { defaultImgUrl } from "@/utils/constant";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 import { computed } from "vue";
 export default {
   name: "DailyRecommend",
@@ -27,6 +29,10 @@ export default {
     },
   },
   setup(props) {
+    // vue-router
+    const router = useRouter();
+
+    // data
     let imgUrl = computed(() =>
       props.dailySongs.length > 0
         ? props.dailySongs[0].al.picUrl
@@ -35,9 +41,27 @@ export default {
     let songName = computed(() =>
       props.dailySongs.length > 0 ? props.dailySongs[0].name : ""
     );
+
+    // vuex
+    const store = useStore();
+    // methods
+    // 1.播放每日推荐歌曲
+    const playDailySongs = () => {
+      const dailysongs = props.dailySongs;
+      const dailySongsIds = dailysongs.map((item) => item.id);
+      store.dispatch("setPlayerPlayList", dailySongsIds);
+    };
+    // 2.跳转到每日推荐页面
+    const toDailyView = () => {
+      router.push("/daily");
+    };
     return {
+      // data
       imgUrl,
       songName,
+      // methods
+      playDailySongs,
+      toDailyView,
     };
   },
 };
@@ -54,10 +78,11 @@ export default {
 }
 .dailyrecommend {
   position: relative;
+  margin: 0;
   width: 590px;
   height: 200px;
   border-radius: $border-radius-rectangle;
-  margin: 0;
+  box-shadow: -4px 4px 15px 2px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   img {
     width: 100%;
@@ -94,8 +119,8 @@ export default {
     right: 35px;
     margin: auto;
     transition: all 0.3s;
-    &:hover{
-        @include bg-frostedglass-deep;
+    &:hover {
+      @include bg-frostedglass-deep;
     }
     svg {
       position: absolute;

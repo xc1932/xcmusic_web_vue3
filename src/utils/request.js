@@ -1,11 +1,11 @@
 import axios from 'axios'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import allowedURL from '@/utils/nprogressURLConstant'
+import allowedURL from '@/utils/constant'
 
-NProgress.configure({ 
-    showSpinner: false, 
-    trickleSpeed: 100 ,
+NProgress.configure({
+    showSpinner: false,
+    trickleSpeed: 100,
     // parent:'.login-container'
 });
 
@@ -37,7 +37,8 @@ service.interceptors.response.use(response => {
         NProgress.done()
     }
     return response.data
-}, error => { 
+}, error => {
+    console.log('error', error);
     throw error
 })
 

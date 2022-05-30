@@ -1,5 +1,5 @@
 import { ref, watch, onMounted } from 'vue'
-export default function useProcessBarController(processbarWidth, processProp) {
+export default function useProcessBarController(processbarWidth, processProp, emit, mouseupCB, clickCB) {
     const process = ref(0)
     const mouseEvent = {
         hasDown: false,     //标记鼠标是否按下，按下才处理mousemove事件
@@ -39,6 +39,11 @@ export default function useProcessBarController(processbarWidth, processProp) {
         const rectLeft = e.currentTarget.getBoundingClientRect().left
         const offsetX = e.clientX - rectLeft
         process.value = Math.min(Math.max(offsetX / processbarWidth, 0), 1)
+        emit("processChanged", process.value);
+        // 用户自定义回调  
+        if (clickCB !== undefined) {
+            clickCB(process.value)            
+        }
     }
 
     // 2.根据拖动改变进度    
@@ -58,10 +63,17 @@ export default function useProcessBarController(processbarWidth, processProp) {
         const incrementProcess = offsetX / processbarWidth
         // 在原有进度(鼠标按下时记录的进度 !important )的基础上增加进度
         process.value = Math.min(Math.max(mouseEvent.startProcess + incrementProcess, 0), 1)
+        emit("processChanged", process.value);
         mouseEvent.hasMoved = true
     }
 
     const mouseUpHandelr = function () {
+        if (mouseEvent.hasMoved) {
+            // 用户自定义回调          
+            if (mouseupCB !== undefined) {
+                mouseupCB(process.value)
+            }
+        }
         // 重置鼠标按下的标志位
         mouseEvent.hasDown = false
     }

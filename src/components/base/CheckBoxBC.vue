@@ -1,23 +1,26 @@
 <template>
   <div class="checkboxBC">
-    <input type="checkbox" :id="inputId" />
-    <label :for="inputId"></label>
+    <input type="checkbox" :id="inputId" :checked="checked" @click.stop />
+    <label :for="inputId" @click.stop></label>
   </div>
 </template>
 
 <script>
 export default {
   name: "CheckBoxBC",
-  props:['inputId']
+  props: ["inputId", "checked"],
 };
 </script>
 
 <style lang="scss" scoped>
 .checkboxBC {
+  width: 20px;
   input {
     display: none;
+    z-index: -1;
   }
   label {
+    z-index: -1;
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -44,9 +47,9 @@ export default {
     opacity: 0;
   }
   /* 设置选中后背景色 */
-  input:checked + label {
-    /* background: #2eb5f0; */
-  }
+  // input:checked + label {
+  //   background: #2eb5f0;
+  // }
   /* 设置选中后显示 */
   input:checked + label::before {
     opacity: 1;

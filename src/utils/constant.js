@@ -1,3 +1,13 @@
+// 开启nprocess的请求
+export default [
+    "/logout",
+    '/login/cellphone',
+    '/login',
+    '/login/qr/create',
+    '/playlist/detail',
+    '/song/detail',
+]
+
 // 默认图片
 export const defaultImgUrl = "https://p2.music.126.net/0-Ybpa8FrDfRgKYCTJD8Xg==/109951164796696795.jpg";
 

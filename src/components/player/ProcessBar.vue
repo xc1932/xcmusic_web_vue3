@@ -5,7 +5,11 @@
     :style="{ width: processbarWidth + 'px' }"
     @click="onclickHandler"
   >
-    <div class="processline" ref="lineRef" :style="{ width: lineWidth + 'px' }"></div>
+    <div
+      class="processline"
+      ref="lineRef"
+      :style="{ width: lineWidth + 'px' }"
+    ></div>
     <div
       class="processcircle"
       ref="circleRef"
@@ -29,26 +33,36 @@ export default {
       type: Number,
       default: 0,
     },
+    mouseupCB: {
+      type: Function,
+    },
+    clickCB: {
+      type: Function,
+    },
   },
   emits: ["processChanged"],
   setup(props, { emit }) {
     const processbarRef = ref(null);
     const processProp = toRef(props, "processProp");
-    const { process, onclickHandler, mouseDownHandelr,lineRef,circleRef } =
-      useProcessBarController(props.processbarWidth, processProp);
+    const mouseupCB=toRef(props,"mouseupCB")
+    const clickCB=toRef(props,"clickCB")
+    const { process, onclickHandler, mouseDownHandelr, lineRef, circleRef } =
+      useProcessBarController(
+        props.processbarWidth,
+        processProp,
+        emit,
+        mouseupCB.value,
+        clickCB.value
+      );
     const lineWidth = computed(() => process.value * props.processbarWidth);
-    // 监听process的改变通知父组件
-    watch(process, (newProcess) => {
-      emit("processChanged", newProcess);
-    });
-   
+
     return {
       processbarRef,
       lineWidth,
       onclickHandler,
       mouseDownHandelr,
       lineRef,
-      circleRef
+      circleRef,
     };
   },
 };

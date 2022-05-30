@@ -31,7 +31,11 @@
         slideShadows: true,
       }"
     >
-      <swiper-slide v-for="(banner, index) in banners" :key="index">
+      <swiper-slide
+        v-for="(banner, index) in banners"
+        :key="index"
+        @click.stop="toCorrespondingView(banner)"
+      >
         <img :src="banner.imageUrl" :alt="banner.typeTitle" />
       </swiper-slide>
     </swiper>
@@ -45,38 +49,64 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
-import { getBanner } from "@/api/others";
-import { computed, ref } from "vue";
+import { ref, toRefs } from "vue";
+import router from "@/router";
 export default {
   name: "Banner",
   components: {
     Swiper,
     SwiperSlide,
   },
-  setup() {
+  props: {
+    banners: {
+      type: Array,
+      default: [],
+    },
+  },
+  setup(props) {
     // data
-    const banners = ref([]);
-    const swiperObj=ref({})
+    const { banners } = toRefs(props);
+    const swiperObj = ref(null);
     // computed
-    const initialSlide=computed(()=>Math.floor(banners.value.length/2))
+    // const initialSlide = computed(() => Math.floor(banners.value.length / 2));
 
-    // 获取banner
-    const getBanners = async () => {
-      const res = await getBanner({
-        type: 0,
-      });
-      if (res.code === 200) {
-        banners.value = res.banners;
-        swiperObj.value.slideTo(initialSlide.value)
+    // swiper初始化完成事件
+    const onSwiper = (swiper) => {
+      swiperObj.value = swiper;
+      // swiperObj.value.slideTo(initialSlide.value);
+    };
+
+    // motheds
+    const toCorrespondingView = (banner) => {
+      const { targetType, targetId, url } = banner;
+      // targetType:
+      // 1：单曲(tragetId)
+      // 10:专辑(tragetId)
+      // 1000：歌单(tragetId)
+      // 1004: MV(targetId)
+      // 3000：专题,直接跳转(url)
+      switch (targetType) {
+        case 1:
+          break;
+        case 10:
+          router.push(`/album/${targetId}`);
+          break;
+        case 1000:
+          router.push(`/playlist/${targetId}`);
+          break;
+        case 1004:
+          router.push(`/mv/${targetId}`);
+          break;
+        default:
+          url !== null ? (window.location.href = url) : "";
       }
     };
-    // swiper初始化完成事件
-    const onSwiper=(swiper)=>{
-      swiperObj.value=swiper
-    }
-    getBanners();
     return {
+      // data
       banners,
+      // methods
+      toCorrespondingView,
+      // swiper
       onSwiper,
       modules: [Navigation, Pagination, Autoplay, EffectCoverflow],
     };
@@ -87,6 +117,7 @@ export default {
 <style lang='scss' scoped>
 .banner {
   margin: 50px 0;
+  @include not-allowed-select;
   .swiper {
     img {
       width: 100%;

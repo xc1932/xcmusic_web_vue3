@@ -39,7 +39,8 @@ export function initPlayerData() {
         playList: [],               // 播放列表
         shuffledList: [],           // 随机播放列表
         playing: false,             // 播放状态     
-        playMode:playMode.listLoop  // 播放模式
+        playMode:playMode.listLoop, // 播放模式
+        playProcess:0,              //播放进度
     }))
 }
 
@@ -65,6 +66,11 @@ export function updatePlayingState(newPlayingState) {
 // 5.更新播放模式
 export function updatePlayMode(newPlayMode){
     updatePlayerData('playMode',newPlayMode)
+}
+
+// 6.更新播放进度
+export function updatePlayProcess(newPlayProcess){
+    updatePlayerData('playProcess',newPlayProcess)
 }
 
 // 更新PlayerData

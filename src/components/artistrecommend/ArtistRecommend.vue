@@ -9,7 +9,7 @@
       :speed="10000"
       :loop="true"
       :autoplay="{
-        delay:0,
+        delay: 0,
         disableOnInteraction: false,
         pauseOnMouseEnter: true,
       }"
@@ -22,6 +22,8 @@
             boxHeight="190px"
             imgHeight="190px"
             imgRadius="50%"
+            @playbtnClick="playAllSongOfArtist(artist.id)"
+            @click="toArtistView(artist.id)"
           >
           </rectangle-show-box>
           <div class="name">{{ artist.name }}</div>
@@ -37,7 +39,9 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import RectangleShowBox from "@/components/base/rectangleShowBox";
+import RectangleShowBox from "@/components/base/RectangleShowBox";
+import useHomeViewControls from "@/views/hooks/useHomeViewControls";
+import { useRouter } from "vue-router";
 import { ref } from "vue";
 export default {
   name: "ArtistRecommend",
@@ -51,13 +55,29 @@ export default {
   setup(props) {
     // data
     const swiperObj = ref({});
+
+    // router
+    const router = useRouter();
+
+    // hooks
+    const { playAllSongOfArtist } = useHomeViewControls(0);
+    // methods
     // swiper初始化完成事件
     const onSwiper = (swiper) => {
       swiperObj.value = swiper;
     };
+    // 跳转到歌手页面
+    const toArtistView = (id) => {
+      router.push(`/artist/${id}`);
+    };
     return {
+      // swiper
       onSwiper,
       modules: [Navigation, Pagination, Autoplay],
+      // hooks
+      playAllSongOfArtist,
+      // methods
+      toArtistView,
     };
   },
 };

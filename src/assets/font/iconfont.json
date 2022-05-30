@@ -6,6 +6,62 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1226475",
+      "name": "error",
+      "font_class": "error",
+      "unicode": "e6b2",
+      "unicode_decimal": 59058
+    },
+    {
+      "icon_id": "1226476",
+      "name": "prompt",
+      "font_class": "prompt",
+      "unicode": "e6b4",
+      "unicode_decimal": 59060
+    },
+    {
+      "icon_id": "1226477",
+      "name": "success",
+      "font_class": "success",
+      "unicode": "e6b5",
+      "unicode_decimal": 59061
+    },
+    {
+      "icon_id": "7199857",
+      "name": "音乐",
+      "font_class": "yinle1",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "18419850",
+      "name": "音乐3",
+      "font_class": "yinle3",
+      "unicode": "e662",
+      "unicode_decimal": 58978
+    },
+    {
+      "icon_id": "17439116",
+      "name": "翻译",
+      "font_class": "fanyi",
+      "unicode": "e8be",
+      "unicode_decimal": 59582
+    },
+    {
+      "icon_id": "15272276",
+      "name": "添加",
+      "font_class": "tianjia",
+      "unicode": "e700",
+      "unicode_decimal": 59136
+    },
+    {
+      "icon_id": "26670816",
+      "name": "清空",
+      "font_class": "qingkong",
+      "unicode": "e72c",
+      "unicode_decimal": 59180
+    },
+    {
       "icon_id": "2154211",
       "name": "追番数_32",
       "font_class": "zhuifanshu",

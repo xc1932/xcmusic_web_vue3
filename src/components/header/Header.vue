@@ -2,12 +2,12 @@
   <div class="header-container">
     <div class="container">
       <div class="left">
-        <div class="btn pre-btn" v-clickZoomOut>
+        <div class="btn pre-btn" v-clickZoomOut @click="prePage">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-arrowleft"></use>
           </svg>
         </div>
-        <div class="btn next-btn" v-clickZoomOut>
+        <div class="btn next-btn" v-clickZoomOut @click="nextPage">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-arrowright"></use>
           </svg>
@@ -15,25 +15,38 @@
       </div>
       <div class="center">
         <ul>
-          <li v-clickZoomOut>首页</li>
-          <li v-clickZoomOut>发现</li>
-          <li v-clickZoomOut>音乐库</li>
+          <router-link to="/"><li v-clickZoomOut>首页</li></router-link>
+          <router-link to="/"><li v-clickZoomOut>发现</li></router-link>
+          <router-link to="/mymusic"
+            ><li v-clickZoomOut>音乐盒</li></router-link
+          >
         </ul>
       </div>
       <div class="right">
         <div class="search">
           <span class="iconfont icon-search"></span>
-          <input type="text" placeholder="搜索" />
+          <input
+            type="text"
+            :placeholder="defaultSearchKeywords"
+            v-model="keywords"
+            @input="inputHandler"
+            @blur="blurHandler"
+            @keydown.enter="searchHandler"
+          />
         </div>
 
-        <div class="user" @click="showDropdown" v-clickOutside="closeDropdown">
+        <div class="user" @click.stop="showDropdown">
           <div v-if="getUserAvatarUrl" v-mousehoverZoom>
             <img :src="getUserAvatarUrl" />
           </div>
           <svg class="icon" aria-hidden="true" v-else>
             <use xlink:href="#icon-user"></use>
           </svg>
-          <div class="dropdown" v-show="dropdownShow">
+          <div
+            class="dropdown"
+            v-if="dropdownShow"
+            v-clickOutside="closeDropdown"
+          >
             <ul>
               <li v-clickZoomOut:[0.95]>
                 <span class="iconfont icon-settings4"></span>设置
@@ -49,7 +62,7 @@
               </li>
             </ul>
           </div>
-        </div>        
+        </div>
       </div>
     </div>
   </div>
@@ -57,11 +70,23 @@
 
 <script>
 import { logoutAndClearCookies } from "@/utils/cookie";
+import {
+  getDefaultSearchKeywords,
+  getSearchSuggest,
+  getSearchResult,
+  getCloudSearchResult,
+  getHotSearch,
+  getHotSearchDetail,
+} from "@/api/search";
 import { mapGetters } from "vuex";
 export default {
   name: "Header",
   data() {
     return {
+      // 默认搜索关键词
+      defaultSearchKeywords: "",
+      // 搜索关键词
+      keywords: "",
       // 下拉菜单显示隐藏控制
       dropdownShow: false,
     };
@@ -69,7 +94,37 @@ export default {
   computed: {
     ...mapGetters(["getUserNickname", "getUserAvatarUrl"]),
   },
+  created() {
+    this.getDefaultKeywords();
+  },
   methods: {
+    searchHandler() {
+      let keywords = this.keywords.trim();
+      if (keywords === "") {
+        keywords = this.defaultSearchKeywords;
+      }
+      this.$router.push(`/search/${keywords}`);
+    },
+    inputHandler() {
+      const keywords = this.keywords;
+      getSearchSuggest({ keywords }).then((res) => {
+        // console.log(res);
+      });
+    },
+    blurHandler() {
+      let keywords = this.keywords.trim();
+      if (keywords === "") {
+        this.getDefaultKeywords();
+      }
+    },
+    // 获取默认搜索关键词
+    getDefaultKeywords() {
+      getDefaultSearchKeywords().then((res) => {
+        if (res.code === 200) {
+          this.defaultSearchKeywords = res.data.showKeyword;
+        }
+      });
+    },
     // 显示下拉菜单的回调
     showDropdown() {
       this.dropdownShow = true;
@@ -80,12 +135,20 @@ export default {
     },
     // 显示登录框
     showLogin() {
-      this.$store.commit('SET_SHOWLOGINBOX',true)
+      this.$store.commit("SET_SHOWLOGINBOX", true);
       this.closeDropdown();
-    },    
+    },
     // 退出登录
     logOut() {
       logoutAndClearCookies();
+    },
+    // 上一页
+    prePage() {
+      this.$router.back();
+    },
+    // 下一页
+    nextPage() {
+      this.$router.forward();
     },
   },
 };
@@ -98,8 +161,9 @@ export default {
   left: 0;
   right: 0;
   z-index: 9999;
+  border-bottom: 1px solid #eee;
   height: 75px;
-  @include bg-frostedglass();
+  @include bg-frostedglass($bgc: rgba(255, 255, 255, 0.8), $blur: 10px);
   .container {
     height: 100%;
     margin: 0 auto;
@@ -117,7 +181,7 @@ export default {
         justify-content: center;
         align-items: center;
         &:hover {
-          background-color: $color-bg-white;
+          background-color: rgba(128, 128, 128, 0.3);
         }
       }
       .pre-btn {
@@ -133,16 +197,20 @@ export default {
         height: 100%;
         margin-bottom: 0;
         display: flex;
-        li {
-          height: 50px;
-          line-height: 50px;
-          padding: 0 15px;
-          margin-left: 15px;
-          font-size: $font-size-large-x;
-          font-weight: 700;
-          border-radius: 10px;
-          &:hover {
-            background-color: $color-bg-white;
+        a {
+          li {
+            height: 50px;
+            line-height: 50px;
+            padding: 0 15px;
+            margin-left: 15px;
+            border-radius: 10px;
+            font-size: $font-size-large-x;
+            font-weight: 700;
+            color: black;
+            @include not-allowed-select;
+            &:hover {
+              background-color: rgba(128, 128, 128, 0.3);
+            }
           }
         }
       }
@@ -185,7 +253,7 @@ export default {
         }
         img {
           border-radius: 50%;
-          outline: 2px solid rgba(128,128,128,0.3);
+          outline: 2px solid rgba(128, 128, 128, 0.3);
         }
         .dropdown {
           width: 150px;
@@ -197,7 +265,8 @@ export default {
           top: 0;
           transform: translate(15px, 15px);
           ul {
-            padding: 10px;
+            padding: 0 10px;
+            margin-bottom: 0;
             text-align: left;
             li {
               padding: 8px;

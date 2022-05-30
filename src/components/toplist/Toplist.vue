@@ -13,6 +13,8 @@
         boxWidth="225px"
         boxHeight="300px"
         imgRadius="15px"
+        @playbtnClick="playAllSongInPlaylist(item)"
+        @click="toPlaylistView(item.id)"
       >
         <div class="description">
           {{ item.name }}
@@ -26,7 +28,9 @@
 </template>
 
 <script>
-import RectangleShowBox from "@/components/base/rectangleShowBox";
+import RectangleShowBox from "@/components/base/RectangleShowBox";
+import useHomeViewControls from "@/views/hooks/useHomeViewControls";
+import { useRouter } from "vue-router";
 export default {
   name: "Toplist",
   components: { RectangleShowBox },
@@ -37,7 +41,21 @@ export default {
     },
   },
   setup() {
-    return {};
+    // router
+    const router = useRouter();
+    // hooks
+    const { playAllSongInPlaylist } = useHomeViewControls();
+
+    // 跳转到playlist页面
+    const toPlaylistView = (id) => {
+      router.push(`/playlist/${id}`);
+    };
+    return {
+      // hooks
+      playAllSongInPlaylist,
+      // methods
+      toPlaylistView,
+    };
   },
 };
 </script>

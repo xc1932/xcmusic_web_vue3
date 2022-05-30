@@ -15,13 +15,17 @@
         imgRadius="15px"
         :trackCount="item.trackCount"
         :copyWriter="item.copywriter"
+        @playbtnClick="playAllSongInPlaylist(item)"
+        @click="toPlaylistView(item.id)"
       >
         <div class="description">
           {{ item.name }}
         </div>
         <div class="other">
           <span>播放量：{{ playCountConvert(item.playCount) }}</span>
-          <span class="right">{{ createTime(item.trackNumberUpdateTime) }}</span>
+          <span class="right">{{
+            createTime(item.trackNumberUpdateTime)
+          }}</span>
         </div>
       </rectangle-show-box>
     </div>
@@ -29,18 +33,24 @@
 </template>
 
 <script>
-import RectangleShowBox from "@/components/base/rectangleShowBox";
-
+import RectangleShowBox from "@/components/base/RectangleShowBox";
+import useHomeViewControls from "@/views/hooks/useHomeViewControls";
+import {useRouter} from 'vue-router'
 export default {
   name: "HotRecommend",
   components: { RectangleShowBox },
-  props:{
-    songlist:{
-      type:Array,
-      default:[]
-    }
+  props: {
+    songlist: {
+      type: Array,
+      default: [],
+    },
   },
   setup() {
+    // router
+    const router=useRouter()
+    // hooks
+    const { playAllSongInPlaylist } = useHomeViewControls();
+    // methods
     // 播放量转换函数
     const playCountConvert = (playCount) => {
       return playCount > 10000
@@ -52,9 +62,17 @@ export default {
       const time = new Date(updateTime);
       return `${time.getFullYear()}-${time.getMonth()}-${time.getDate()}`;
     };
+    // 跳转到playlist页面
+    const toPlaylistView=(id)=>{
+      router.push(`/playlist/${id}`)
+    }
     return {
+      // hooks
+      playAllSongInPlaylist,
+      // methods
       playCountConvert,
       createTime,
+      toPlaylistView
     };
   },
 };
@@ -92,8 +110,8 @@ export default {
       @include text-overflow-hidden(1);
       font-weight: 700;
     }
-    .other{
-      .right{
+    .other {
+      .right {
         float: right;
         padding-right: 3px;
       }

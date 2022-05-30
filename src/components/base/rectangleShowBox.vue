@@ -6,16 +6,17 @@
       :style="imgBoxStyle"
       @mouseenter="showPlay"
       @mouseleave="hidePlay"
+      @click="imgboxClick"
     >
-      <img :src="imgUrl" ref="imgRef" />
-      <div class="play" ref="playRef" v-clickZoomOut>
+      <img v-lazy="imgUrl" ref="imgRef" />
+      <div class="play" ref="playRef" v-clickZoomOut @click.stop="playBtnClick">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-play"></use>
         </svg>
       </div>
       <div
         class="desBox"
-        v-if="trackCount !== undefined && copyWriter !== undefined"
+        v-if="trackCount !== undefined || copyWriter !== undefined"
       >
         <div class="left">
           <svg class="icon" aria-hidden="true">
@@ -23,7 +24,9 @@
           </svg>
           <span>{{ trackCount }}首</span>
         </div>
-        <div class="right">{{ copyWriter }}</div>
+        <div class="right" v-if="copyWriter !== undefined">
+          {{ copyWriter }}
+        </div>
       </div>
     </div>
     <slot></slot>
@@ -61,7 +64,8 @@ export default {
       type: String,
     },
   },
-  setup(props) {
+  emits: ["playbtnClick", "imgboxClick"],
+  setup(props, { emit }) {
     // data
     const imgBoxRef = ref({});
     const imgRef = ref({});
@@ -89,6 +93,14 @@ export default {
       playRef.value.style.transform = "scale(1)";
       imgRef.value.style.transform = "scale(1)";
     };
+    // playbtn点击
+    const playBtnClick = () => {
+      emit("playbtnClick");
+    };
+    // imgbox点击
+    const imgboxClick = () => {
+      emit("imgboxClick");
+    };
     return {
       imgBoxRef,
       imgRef,
@@ -97,6 +109,8 @@ export default {
       imgBoxStyle,
       showPlay,
       hidePlay,
+      playBtnClick,
+      imgboxClick,
     };
   },
 };
@@ -109,6 +123,9 @@ export default {
     border-radius: 15px;
     overflow: hidden;
     position: relative;
+    &:hover {
+      box-shadow: -4px 4px 15px 2px rgba(0, 0, 0, 0.2);
+    }
     img {
       width: 100%;
       height: 100%;

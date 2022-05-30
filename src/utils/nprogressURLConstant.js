@@ -1,1 +1,0 @@
-export default ["/logout",'/login/cellphone','/login','/login/qr/create']

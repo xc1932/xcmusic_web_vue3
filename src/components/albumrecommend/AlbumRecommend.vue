@@ -13,6 +13,8 @@
         boxWidth="225px"
         boxHeight="300px"
         imgRadius="15px"
+        @playbtnClick="playAllSongInAlbum(item)"
+        @click="toAlbumView(item.id)"
       >
         <div class="description">
           {{ item.name }}
@@ -26,7 +28,9 @@
 </template>
 
 <script>
-import RectangleShowBox from "@/components/base/rectangleShowBox";
+import RectangleShowBox from "@/components/base/RectangleShowBox";
+import useHomeViewControls from '@/views/hooks/useHomeViewControls'
+import {useRouter} from 'vue-router'
 export default {
   name: "AlbumRecommend",
   components: { RectangleShowBox },
@@ -36,11 +40,22 @@ export default {
       default:[]
     }
   },
-  setup() {
-    
+  setup() {     
+    // router
+    const router=useRouter()
 
+    // hooks
+    const {playAllSongInAlbum}=useHomeViewControls()
+
+    // methods
+    const toAlbumView=(id)=>{
+      router.push(`/album/${id}`)
+    }
     return {
-
+      // hooks
+      playAllSongInAlbum,
+      // methods
+      toAlbumView
     };
   },
 };

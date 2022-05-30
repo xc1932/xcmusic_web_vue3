@@ -4,14 +4,22 @@
     <Header></Header>
     <!-- 登录组件 -->
     <login v-if="getShowLoginBox"></login>
-    <!-- 页面 -->
-    <home-view></home-view>
+    <!-- 带缓存的页面视图 -->
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
+    <!-- 无缓存的页面视图 -->
+    <router-view name="noCache" :key="$route.fullPath"></router-view>
+    <!-- <home-view></home-view> -->
     <!-- 播放器 -->
     <player />
   </div>
 </template>
 
 <script>
+import useGetUserLikedMusicData from "./views/hooks/useGetUserLikedMusicData";
 import { mapGetters } from "vuex";
 import Player from "@/components/player/Player.vue";
 import Header from "@/components/header/Header.vue";
@@ -23,10 +31,25 @@ export default {
   computed: {
     ...mapGetters(["getShowLoginBox"]),
   },
+  created() {
+    useGetUserLikedMusicData();
+  },
 };
 </script>
 
 <style lang="scss">
+#app {
+  height: 0;
+}
+.app {
+  display: flow-root;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+}
 #nprogress {
   .bar {
     z-index: 9999;
