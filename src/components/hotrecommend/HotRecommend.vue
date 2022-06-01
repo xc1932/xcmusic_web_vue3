@@ -2,7 +2,7 @@
   <div class="hotrecommend container center">
     <div class="rec-header">
       <div class="left">推荐歌曲</div>
-      <div class="right">查看全部</div>
+      <div class="right" @click.stop="toExploreView">查看全部</div>
     </div>
     <div class="rec-body">
       <rectangle-show-box
@@ -35,7 +35,7 @@
 <script>
 import RectangleShowBox from "@/components/base/RectangleShowBox";
 import useHomeViewControls from "@/views/hooks/useHomeViewControls";
-import {useRouter} from 'vue-router'
+import { useRouter } from "vue-router";
 export default {
   name: "HotRecommend",
   components: { RectangleShowBox },
@@ -47,7 +47,7 @@ export default {
   },
   setup() {
     // router
-    const router=useRouter()
+    const router = useRouter();
     // hooks
     const { playAllSongInPlaylist } = useHomeViewControls();
     // methods
@@ -63,16 +63,21 @@ export default {
       return `${time.getFullYear()}-${time.getMonth()}-${time.getDate()}`;
     };
     // 跳转到playlist页面
-    const toPlaylistView=(id)=>{
-      router.push(`/playlist/${id}`)
-    }
+    const toPlaylistView = (id) => {
+      router.push(`/playlist/${id}`);
+    };
+    // 跳转到发现页面
+    const toExploreView = () => {
+      router.push({ path: `/explore`, query: { cat: "推荐" } });
+    };
     return {
       // hooks
       playAllSongInPlaylist,
       // methods
       playCountConvert,
       createTime,
-      toPlaylistView
+      toPlaylistView,
+      toExploreView,
     };
   },
 };
@@ -95,6 +100,7 @@ export default {
     .right {
       font-size: $font-size-small;
       font-weight: 900;
+      cursor: pointer;
     }
   }
   .rec-body {

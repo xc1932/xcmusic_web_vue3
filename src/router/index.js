@@ -9,6 +9,12 @@ const routes = [
     component: () => import('@/views/HomeView.vue')
   },
   {
+    path: '/explore',
+    name: 'explore',
+    component: () => import('@/views/ExploreView.vue'),
+    props: true
+  },
+  {
     path: '/mymusic',
     name: 'mymusic',
     component: () => import('@/views/MyMusicView.vue'),
@@ -49,18 +55,41 @@ const routes = [
     props: true
   },
   {
+    path: '/song/:id',
+    name: 'song',
+    components: {
+      noCache: () => import('@/views/SongDetailView.vue')
+    },
+    props: true
+  },
+  {
     path: '/search/:keywords',
     name: 'search',
     components: {
       noCache: () => import('@/views/SearchView.vue')
     },
-    props: true
+    props: true,
+    children: [
+      {
+        path: ':type',
+        name: 'searchDetail',
+        component: () => import('@/views/SearchDetailView.vue'),
+        props: true,
+      }
+    ]
   },
   {
     path: '/daily',
     name: 'daily',
     components: {
       noCache: () => import('@/views/DailyRecommendView.vue')
+    },
+  },
+  {
+    path: '/newalbum',
+    name: 'newalbum',
+    components: {
+      noCache: () => import('@/views/NewAlbumView.vue')
     },
   },
   {

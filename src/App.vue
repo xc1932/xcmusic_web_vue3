@@ -52,11 +52,11 @@ export default {
 }
 #nprogress {
   .bar {
-    z-index: 9999;
+    z-index: 99999;
     background: red !important; //自定义颜色
   }
   .spinner {
-    z-index: 9999;
+    z-index: 99999;
   }
 }
 </style>

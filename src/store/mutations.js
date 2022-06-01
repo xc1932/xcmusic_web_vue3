@@ -61,6 +61,10 @@ const mutations = {
     SET_PLAYERLYRIC(state, newLyric) {
         state.playerData['lyric'] = newLyric
     },
+    // 8.用户设置
+    SET_USERSETTING(state, { key, value }) {
+        state.userSetting[key] = value
+    },
 
     // 三、信息共享类
     // 1.设置likedSongs

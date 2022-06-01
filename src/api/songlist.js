@@ -1,38 +1,115 @@
 import request from '@/utils/request'
 
-// 获取歌单api
 // 1.获取推荐歌单
-export function getRecommendSonglist(params){
+// 说明 : 调用此接口 , 可获取推荐歌单
+// 可选参数 : limit: 取出数量 , 默认为 30 (不支持 offset)
+// 接口地址 : /personalized
+// 调用例子 : /personalized?limit=1
+export function getRecommendSonglist(params) {
     return request({
-        methods:'get',
-        url:'/personalized',
+        methods: 'get',
+        url: '/personalized',
         params
     })
 }
 
 // 2.获取所有榜单
-export function getTopList(){
+// 说明 : 调用此接口,可获取所有榜单 接口地址 : /toplist
+// 调用例子 : /toplist
+export function getTopList() {
     return request({
-        methods:'get',
-        url:'/toplist'
+        methods: 'get',
+        url: '/toplist'
     })
 }
 
 // 3.获取每日推荐歌单
-export function getDailyRecommendList(){
+// 说明 : 调用此接口 , 可获得每日推荐歌单 ( 需要登录 )
+// 接口地址 : /recommend/resource
+// 调用例子 : /recommend/resource
+export function getDailyRecommendList() {
     return request({
-        methods:'get',
-        url:'/recommend/resource'
+        methods: 'get',
+        url: '/recommend/resource'
     })
 }
 
 // 4.获取每日推荐歌曲
-export function getDailyRecommendSongs(){
+// 说明 : 调用此接口 , 可获得每日推荐歌单 ( 需要登录 )
+// 接口地址 : /recommend/resource
+// 调用例子 : /recommend/resource
+export function getDailyRecommendSongs() {
     return request({
-        method:'get',
-        url:'/recommend/songs'
+        method: 'get',
+        url: '/recommend/songs'
     })
 }
+
+// 精品歌单标签列表
+// 说明 : 调用此接口 , 可获取精品歌单标签列表
+// 接口地址 : /playlist/highquality/tags
+// 调用例子 : /playlist/highquality/tags
+export function getHighQualityTags() {
+    return request({
+        method: 'get',
+        url: '/playlist/highquality/tags',
+    })
+}
+
+// 获取精品歌单
+// 说明 : 调用此接口 , 可获取精品歌单
+// 可选参数 : cat: tag, 比如 " 华语 "、" 古风 " 、" 欧美 "、" 流行 ", 
+// 默认为 "全部",可从精品歌单标签列表接口获取(/playlist/highquality/tags)
+// limit: 取出歌单数量 , 默认为 20
+// before: 分页参数,取上一页最后一个歌单的 updateTime 获取下一页数据
+// 接口地址 : /top/playlist/highquality
+// 调用例子 : /top/playlist/highquality?before=1503639064232&limit=3
+export function getHighQuality(params) {
+    return request({
+        method: 'get',
+        url: '/top/playlist/highquality',
+        params
+    })
+}
+
+// 歌单 ( 网友精选碟 )
+// 说明 : 调用此接口 , 可获取网友精选碟歌单
+// 可选参数 : order: 可选值为 'new' 和 'hot', 分别对应最新和最热 , 默认为 'hot'
+// cat: tag, 比如 " 华语 "、" 古风 " 、" 欧美 "、" 流行 ", 默认为 "全部",可从歌单分类接口获取(/playlist/catlist)
+// limit: 取出歌单数量 , 默认为 50
+// offset: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*50, 其中 50 为 limit 的值
+// 接口地址 : /top/playlist
+// 调用例子 : /top/playlist?limit=10&order=new
+export function getTopPlaylist(params) {
+    return request({
+        method: 'get',
+        url: '/top/playlist',
+        params,
+    });
+}
+
+// 获取热门歌单分类
+// 说明 : 调用此接口,可获取歌单分类,包含 category 信息
+// 接口地址 : /playlist/hot
+// 调用例子 : /playlist/hot
+export function getHotPlaylistCategory() {
+    return request({
+        method: 'get',
+        url: '/playlist/hot'
+    })
+}
+
+// 获取歌单分类
+// 说明 : 调用此接口,可获取歌单分类,包含 category 信息
+// 接口地址 : /playlist/catlist
+// 调用例子 : /playlist/catlist
+export function getPlaylistCatlist() {
+    return request({
+        method: 'get',
+        url: '/playlist/catlist'
+    })
+}
+
 
 // 5.获取歌单详情
 // 说明 : 歌单能看到歌单名字, 但看不到具体歌单内容 , 调用此接口 , 传入歌单 id,
@@ -43,13 +120,13 @@ export function getDailyRecommendSongs(){
 // 可选参数 : s : 歌单最近的 s 个收藏者,默认为 8
 // 接口地址 : /playlist/detail
 // 调用例子 : /playlist/detail?id=24381616
-export function getPlaylistDetail(params){
+export function getPlaylistDetail(params) {
     return request({
-        method:'get',
-        url:'/playlist/detail',
-        params:{
+        method: 'get',
+        url: '/playlist/detail',
+        params: {
             ...params,
-            timestamp:new Date().getTime()
+            timestamp: new Date().getTime()
         }
     })
 }
@@ -62,13 +139,13 @@ export function getPlaylistDetail(params){
 // 可选参数 : offset : 默认值为0
 // 接口地址 : /playlist/track/all
 // 调用例子 : /playlist/track/all?id=24381616&limit=10&offset=1
-export function getPlaylistAllSongs(params){
+export function getPlaylistAllSongs(params) {
     return request({
-        method:'get',
-        url:'/playlist/track/all',
-        params:{
+        method: 'get',
+        url: '/playlist/track/all',
+        params: {
             ...params,
-            timestamp:new Date().getTime()
+            timestamp: new Date().getTime()
         }
     })
 }
@@ -78,11 +155,11 @@ export function getPlaylistAllSongs(params){
 // 必选参数 :
 // t : 类型,1:收藏,2:取消收藏  id:歌单id
 // 接口地址 : /playlist/subscribe
-// 调用例子 : /playlist/subscribe?t=1&id=106697785 /play歌list/subscribe?t=2&id=106697785
-export function subscribePlaylist(params){
+// 调用例子 : /playlist/subscribe?t=1&id=106697785 /playlist/subscribe?t=2&id=106697785
+export function subscribePlaylist(params) {
     return request({
-        method:'post',
-        url:'/playlist/subscribe',
+        method: 'post',
+        url: '/playlist/subscribe',
         params
     })
 }

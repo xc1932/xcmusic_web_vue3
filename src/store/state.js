@@ -1,5 +1,5 @@
 // 初始化本地存储
-import initLocalStorage, { USERDATA_KEY, PLAYERDATA_KEY } from '@/utils/localStorage'
+import initLocalStorage, { USERDATA_KEY, PLAYERDATA_KEY, USERSETTING_KEY } from '@/utils/localStorage'
 // localStorage
 initLocalStorage()
 
@@ -13,6 +13,8 @@ const state = {
     userData: JSON.parse(localStorage.getItem(USERDATA_KEY)),
     // 2.播放器信息
     playerData: JSON.parse(localStorage.getItem(PLAYERDATA_KEY)),
+    // 3.用户设置
+    userSetting: JSON.parse(localStorage.getItem(USERSETTING_KEY)),
 
     // 三、信息共享类 
     // 1.用户喜欢的音乐  

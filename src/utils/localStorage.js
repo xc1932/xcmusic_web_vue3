@@ -1,4 +1,4 @@
-import {playMode} from '@/utils/constant'
+import { playMode } from '@/utils/constant'
 
 // 1.初始化本地存储
 export default function initLocalStorage() {
@@ -6,10 +6,13 @@ export default function initLocalStorage() {
     initUserData()
     // 初始化PlayerData
     initPlayerData()
+    // 初始化UserSetting
+    initUserSetting()
 }
 
 export const USERDATA_KEY = 'UserData_xcmusic'
 export const PLAYERDATA_KEY = 'PlayerData_xcmusic'
+export const USERSETTING_KEY = 'UserSetting_xcmusic'
 
 // 一、用户数据
 // 1.初始化UserData
@@ -39,8 +42,8 @@ export function initPlayerData() {
         playList: [],               // 播放列表
         shuffledList: [],           // 随机播放列表
         playing: false,             // 播放状态     
-        playMode:playMode.listLoop, // 播放模式
-        playProcess:0,              //播放进度
+        playMode: playMode.listLoop, // 播放模式
+        playProcess: 0,              //播放进度
     }))
 }
 
@@ -64,13 +67,13 @@ export function updatePlayingState(newPlayingState) {
 }
 
 // 5.更新播放模式
-export function updatePlayMode(newPlayMode){
-    updatePlayerData('playMode',newPlayMode)
+export function updatePlayMode(newPlayMode) {
+    updatePlayerData('playMode', newPlayMode)
 }
 
 // 6.更新播放进度
-export function updatePlayProcess(newPlayProcess){
-    updatePlayerData('playProcess',newPlayProcess)
+export function updatePlayProcess(newPlayProcess) {
+    updatePlayerData('playProcess', newPlayProcess)
 }
 
 // 更新PlayerData
@@ -80,4 +83,22 @@ function updatePlayerData(key, value) {
     playerData = JSON.parse(playerData)
     playerData[key] = value
     localStorage.setItem(PLAYERDATA_KEY, JSON.stringify(playerData))
+}
+
+// 三、用户设置
+// 1.初始化UserSetting
+export function initUserSetting() {
+    const userSetting = localStorage.getItem(USERSETTING_KEY)
+    if (userSetting) return
+    localStorage.setItem(USERSETTING_KEY, JSON.stringify({
+        selectedCategories: []
+    }))
+}
+
+// 2.更新selectedCategories
+export function updateSelectedCategories(selectedCategories) {
+    let userSetting = localStorage.getItem(USERSETTING_KEY) ?? '{}'
+    userSetting = JSON.parse(userSetting)
+    userSetting['selectedCategories'] = selectedCategories
+    localStorage.setItem(USERSETTING_KEY, JSON.stringify(userSetting))
 }

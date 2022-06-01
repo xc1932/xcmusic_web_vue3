@@ -2,7 +2,7 @@
   <div class="hotrecommend container center">
     <div class="rec-header">
       <div class="left">新专速递</div>
-      <div class="right">查看全部</div>
+      <div class="right" @click.stop="toNewAlbumView">查看全部</div>
     </div>
     <div class="rec-body">
       <rectangle-show-box
@@ -20,7 +20,7 @@
           {{ item.name }}
         </div>
         <div class="other">
-          <span>{{item.artist.name}}</span>
+          <span>{{ item.artist.name }}</span>
         </div>
       </rectangle-show-box>
     </div>
@@ -29,33 +29,37 @@
 
 <script>
 import RectangleShowBox from "@/components/base/RectangleShowBox";
-import useHomeViewControls from '@/views/hooks/useHomeViewControls'
-import {useRouter} from 'vue-router'
+import useHomeViewControls from "@/views/hooks/useHomeViewControls";
+import { useRouter } from "vue-router";
 export default {
   name: "AlbumRecommend",
   components: { RectangleShowBox },
-  props:{
-    albums:{
-      type:Array,
-      default:[]
-    }
+  props: {
+    albums: {
+      type: Array,
+      default: [],
+    },
   },
-  setup() {     
+  setup() {
     // router
-    const router=useRouter()
+    const router = useRouter();
 
     // hooks
-    const {playAllSongInAlbum}=useHomeViewControls()
+    const { playAllSongInAlbum } = useHomeViewControls();
 
     // methods
-    const toAlbumView=(id)=>{
-      router.push(`/album/${id}`)
-    }
+    const toAlbumView = (id) => {
+      router.push(`/album/${id}`);
+    };
+    const toNewAlbumView = () => {
+      router.push("/newalbum");
+    };
     return {
       // hooks
       playAllSongInAlbum,
       // methods
-      toAlbumView
+      toAlbumView,
+      toNewAlbumView,
     };
   },
 };
@@ -78,6 +82,7 @@ export default {
     .right {
       font-size: $font-size-small;
       font-weight: 900;
+      cursor: pointer;
     }
   }
   .rec-body {
@@ -93,8 +98,8 @@ export default {
       @include text-overflow-hidden(1);
       font-weight: 700;
     }
-    .other{
-      .right{
+    .other {
+      .right {
         float: right;
         padding-right: 3px;
       }

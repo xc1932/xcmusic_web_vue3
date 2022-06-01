@@ -4,20 +4,36 @@
       <div class="songSection" v-if="songs">
         <div class="header">
           <div class="title">歌曲</div>
-          <div class="showAll" v-if="songs.hasMore">查看全部</div>
+          <div
+            class="showAll"
+            v-if="songs.hasMore"
+            @click.stop="toSearchDetailView(1)"
+          >
+            查看全部
+          </div>
         </div>
         <song-show-section :songlist="songs.songlist"></song-show-section>
       </div>
       <div class="playlistSection" v-if="playlists">
         <div class="header">
           <div class="title">歌单</div>
-          <div class="showAll" v-if="playlists.hasMore">查看全部</div>
+          <div
+            class="showAll"
+            v-if="playlists.hasMore"
+            @click.stop="toSearchDetailView(1000)"
+          >
+            查看全部
+          </div>
         </div>
         <playlist-show-section
           :playlists="playlists.playlists"
         ></playlist-show-section>
       </div>
-      <div class="artistSection" v-if="artists">
+      <div
+        class="artistSection"
+        v-if="artists"
+        @click.stop="toSearchDetailView(100)"
+      >
         <div class="header">
           <div class="title">艺人</div>
           <div class="showAll" v-if="artists.hasMore">查看全部</div>
@@ -26,14 +42,18 @@
           :similarArtists="artists.artistlist"
         ></similar-artist-section>
       </div>
-      <div class="albumSection" v-if="albums">
+      <div
+        class="albumSection"
+        v-if="albums"
+        @click.stop="toSearchDetailView(10)"
+      >
         <div class="header">
           <div class="title">专辑</div>
           <div class="showAll" v-if="albums.hasMore">查看全部</div>
         </div>
         <album-show-section :albumlist="albums.albumlist"></album-show-section>
       </div>
-      <div class="mvSection" v-if="mvs">
+      <div class="mvSection" v-if="mvs" @click.stop="toSearchDetailView(1004)">
         <div class="header">
           <div class="title">MV</div>
           <div class="showAll" v-if="mvs.hasMore">查看全部</div>
@@ -41,6 +61,7 @@
         <mv-show-section :mvlist="mvs.mvlist"></mv-show-section>
       </div>
     </div>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -79,7 +100,7 @@ export default {
     const mvs = ref(null);
 
     // methods
-    // 获取搜索结果
+    // 1.获取搜索结果
     const initData = () => {
       // type: 1：单曲  10：专辑  100：歌手  1000：歌单  1004：MV
       // 获取搜索单曲结果
@@ -170,6 +191,10 @@ export default {
         }
       });
     };
+    // 2.跳转到搜索详情页面
+    const toSearchDetailView = (type) => {
+      router.push(`/search/${keywords}/${type}`);
+    };
 
     initData();
 
@@ -180,6 +205,8 @@ export default {
       artists,
       playlists,
       mvs,
+      // methods
+      toSearchDetailView,
     };
   },
 };
@@ -212,6 +239,7 @@ export default {
         font-weight: 700;
         color: #666;
         cursor: pointer;
+        @include not-allowed-select;
       }
     }
   }

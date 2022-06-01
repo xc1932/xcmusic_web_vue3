@@ -49,7 +49,7 @@
         <button
           class="btn registerbtn"
           v-clickZoomOut
-          @click="cardSwitching(2)"
+          v-notCurrentlySupported
         >
           注册
         </button>
@@ -121,8 +121,8 @@ export default {
   data() {
     return {
       passwordLogin: false,
-      phoneNumber: "15190652332",
-      password: "zj.193200",
+      phoneNumber: "",
+      password: "",
       captcha: "",
     };
   },

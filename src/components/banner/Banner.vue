@@ -87,6 +87,7 @@ export default {
       // 3000：专题,直接跳转(url)
       switch (targetType) {
         case 1:
+          router.push(`/song/${targetId}`);
           break;
         case 10:
           router.push(`/album/${targetId}`);

@@ -19,6 +19,10 @@ const getters = {
     getUserVipType(state) {
         return state.userData?.profile.vipType
     },
+    // 用户设置
+    getUserSelectedCategories(state) {
+        return state.userSetting?.selectedCategories
+    },
     // 2.Player信息    
     getCurrentIndex(state) {
         return state.playerData.currentIndex

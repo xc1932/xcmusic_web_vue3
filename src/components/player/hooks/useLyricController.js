@@ -137,5 +137,6 @@ export default function useLyricController(lyricScollerRef, startScrollLine) {
         lyricArr,
         curLine,
         findLyricIndexRoughly,
+        lyricToObj
     }
 }

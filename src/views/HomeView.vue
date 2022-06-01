@@ -29,7 +29,6 @@ import AlbumRecommend from "@/components/albumrecommend/AlbumRecommend";
 import ArtistRecommend from "@/components/artistrecommend/ArtistRecommend";
 import HotRecommend from "@/components/hotrecommend/HotRecommend";
 import Banner from "@/components/banner/Banner.vue";
-import { useStore } from "vuex";
 import { ref } from "vue";
 export default {
   name: "HomeView",
@@ -43,9 +42,6 @@ export default {
     PrivateFm,
   },
   setup() {
-    // vuex
-    const store = useStore();
-
     // data
     const banners = ref([]);
     const songlist = ref([]);
@@ -64,13 +60,13 @@ export default {
         // console.log(res.banners);
       }
     });
-    // 2.获取推荐歌曲
+    // 2.获取推荐歌单
     getRecommendSonglist({ limit: 10 }).then((res) => {
       if (res.code === 200) {
         songlist.value = res.result;
       }
     });
-    // 3.获取推荐歌手
+    // 3.获取艺人推荐排行榜
     getArtistToplist().then((res) => {
       if (res.code === 200) {
         const artists = res.list.artists;

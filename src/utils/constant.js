@@ -6,6 +6,12 @@ export default [
     '/login/qr/create',
     '/playlist/detail',
     '/song/detail',
+    '/search',
+    '/album/new',
+    '/top/playlist',
+    '/personalized',
+    '/toplist',
+    '/top/playlist/highquality'
 ]
 
 // 默认图片

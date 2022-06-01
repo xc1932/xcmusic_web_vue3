@@ -19,7 +19,8 @@ import {
     updateShuffledList,
     updateCurrentIndex,
     updatePlayMode,
-    updatePlayProcess
+    updatePlayProcess,
+    updateSelectedCategories
 } from '@/utils/localStorage'
 import { shuffle, isTrackPlayable } from '@/utils/utils'
 import { messagebox } from '@/utils/customComponent'
@@ -52,6 +53,11 @@ const actions = {
     clearUserProfile({ commit }) {
         updateProfile({})
         commit('SET_USERPROFILE', { key: 'profile', value: {} })
+    },
+    // 用户设置
+    setUserSelectedCategories({ commit }, newSelectedCategories) {
+        commit('SET_USERSETTING', { key: 'selectedCategories', value: newSelectedCategories })
+        updateSelectedCategories(newSelectedCategories)
     },
 
     // 二、Player信息

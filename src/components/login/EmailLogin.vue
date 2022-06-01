@@ -30,8 +30,8 @@ export default {
   name: "EmailLogin",
   data() {
     return {
-      email: "xuncheng1932@163.com",
-      password: "zj.193200",
+      email: "",
+      password: "",
     };
   },
   methods: {

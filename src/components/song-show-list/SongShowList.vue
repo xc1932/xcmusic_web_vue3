@@ -5,9 +5,10 @@
       v-for="item in songlist"
       :key="item.id"
       :class="{ disable: !item.playable.playable }"
+      @click.stop="toSongView(item.id)"
     >
       <div class="left">
-        <img v-lazy="item.imgUrl" @click="toAlbumView(item.albumId)" />
+        <img v-lazy="item.imgUrl" @click.stop="toAlbumView(item.albumId)" />
         <div class="desc">
           <div class="songname textoverflow-hidden-single">
             <span>{{ item.songName }}</span>
@@ -16,13 +17,13 @@
             class="singer textoverflow-hidden-single"
             v-show="item.artistArr.length > 0"
           >
-            <span @click="toArtistView(item.artistArr[0].artistId)"
+            <span @click.stop="toArtistView(item.artistArr[0].artistId)"
               >{{ item.artistArr[0].artistName }}
             </span>
             <span
               v-for="artist in item.artistArr.slice(1)"
               :key="artist.artistId"
-              @click="toArtistView(artist.artistId)"
+              @click.stop="toArtistView(artist.artistId)"
             >
               / {{ artist.artistName }}</span
             >
@@ -30,10 +31,12 @@
         </div>
       </div>
       <div class="center textoverflow-hidden-single">
-        <span @click="toAlbumView(item.albumId)">{{ item.albumName }}</span>
+        <span @click.stop="toAlbumView(item.albumId)">{{
+          item.albumName
+        }}</span>
       </div>
       <div class="right textoverflow-hidden-single">
-        <div class="focuson" @click="likeASong(item.id)">
+        <div class="focuson" @click.stop="likeASong(item.id)">
           <img
             src="@/assets/svg/like2.svg"
             v-if="likedSongs.includes(item.id)"
@@ -82,6 +85,10 @@ export default {
     const toArtistView = (artistId) => {
       router.push(`/artist/${artistId}`);
     };
+    // 3.跳转到单曲页面
+    const toSongView = (songId) => {
+      router.push(`/song/${songId}`);
+    };
 
     return {
       // vuex
@@ -93,6 +100,7 @@ export default {
       // methods
       toAlbumView,
       toArtistView,
+      toSongView,
     };
   },
 };

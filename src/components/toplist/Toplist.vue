@@ -2,7 +2,7 @@
   <div class="hotrecommend container center">
     <div class="rec-header">
       <div class="left">排行榜</div>
-      <div class="right">查看全部</div>
+      <div class="right" @click.stop="toExploreView">查看全部</div>
     </div>
     <div class="rec-body">
       <rectangle-show-box
@@ -50,11 +50,16 @@ export default {
     const toPlaylistView = (id) => {
       router.push(`/playlist/${id}`);
     };
+    // 跳转到发现页面
+    const toExploreView = () => {
+      router.push({ path: `/explore`, query: { cat: "排行榜" } });
+    };
     return {
       // hooks
       playAllSongInPlaylist,
       // methods
       toPlaylistView,
+      toExploreView,
     };
   },
 };
@@ -77,6 +82,7 @@ export default {
     .right {
       font-size: $font-size-small;
       font-weight: 900;
+      cursor: pointer;
     }
   }
   .rec-body {

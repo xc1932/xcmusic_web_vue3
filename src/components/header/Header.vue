@@ -16,7 +16,9 @@
       <div class="center">
         <ul>
           <router-link to="/"><li v-clickZoomOut>首页</li></router-link>
-          <router-link to="/"><li v-clickZoomOut>发现</li></router-link>
+          <router-link to="/explore?cat=全部"
+            ><li v-clickZoomOut>发现</li></router-link
+          >
           <router-link to="/mymusic"
             ><li v-clickZoomOut>音乐盒</li></router-link
           >

@@ -12,6 +12,7 @@
         :key="song.id"
         :class="{ active: song.id === currentId }"
         v-clickZoomOut:[0.99]
+        @click.stop="toSongView(song.id)"
       >
         <img
           v-lazy="song.hsAlbumCover"
@@ -91,6 +92,10 @@ export default {
     const toAlbumView = (albumId) => {
       router.push(`/album/${albumId}`);
     };
+    // 3.跳转到单曲页面
+    const toSongView = (songId) => {
+      router.push(`/song/${songId}`);
+    };
     return {
       // data
       songShowSectionRef,
@@ -101,6 +106,7 @@ export default {
       showMore,
       fold,
       toAlbumView,
+      toSongView,
     };
   },
 };
