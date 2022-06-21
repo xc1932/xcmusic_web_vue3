@@ -215,7 +215,7 @@ export function getUserCloudDetail(params) {
     })
 }
 
-// 13.获取用户信息
+// 13.获取用户信息 @@
 // 说明 : 登录后调用此接口 , 传入用户 id, 可以获取用户详情
 // 必选参数 : uid : 用户 id
 // 接口地址 : /user/detail
@@ -231,7 +231,7 @@ export function getUserInfo(params) {
     })
 }
 
-// 14.获取用户账号信息
+// 14.获取用户账号信息 @@
 // 获取账号信息
 // 说明 : 登录后调用此接口 ,可获取用户账号信息
 // 接口地址 : /user/account
